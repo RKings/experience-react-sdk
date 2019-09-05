@@ -121,9 +121,11 @@ export default class CmsPage extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.request.path !== prevProps.request.path) {
+    if (this.props.request.path !== prevProps.request.path && !this.props.pageModel) {
       const parsedUrl = this.parseRequest(this.props.request);
       this.fetchPageModel(parsedUrl.path, parsedUrl.query, parsedUrl.preview);
+    } else if (this.props.pageModel !== prevProps.pageModel) {
+      this.updatePageModel(this.props.pageModel)
     }
 
     if (this.state.pageModel !== prevState.pageModel && this.cms) {
